@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## Team SegFault
 
 You can use the [editor on GitHub](https://github.com/JackieW001/SegFault/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
