@@ -75,6 +75,7 @@ let s2 = s1;
 We might assume that the way it works would be the same as the previous example: that is, the second line would make a copy of the value in `s1` and bind it to `s2`. But this isn’t quite what happens.
 
 Let's look at what a `String` looks like "under the hood."
+
 ![useful image]({{ site.url }}/assets/move1.png)
 
 The most important parts to take away from this is that
