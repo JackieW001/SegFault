@@ -82,42 +82,240 @@ The most important parts to take away from this is that
 1. The variable name is not directly connected to the `String` data, and
 2. The variable name has a pointer that points to the `String` data
 
+When we assign s1 to s2, the String data is copied, meaning we copy the pointer, the length, and the capacity. The data the `s1` variable is pointin to is **NOT** copied! The data representation in memory looks like this:
 
-------------------------------------------
-You can use the [editor on GitHub](https://github.com/JackieW001/SegFault/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+![useful image](https://jackiew001.github.io/SegFault/assets/move2.png)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Note that `s1` and `s2` now are both pointing to the same `String` data.
 
-### Markdown
+Earlier, we said that when a variable goes out of scope, Rust automatically tries to free up the memory the variable was pointing to. However, in the figure shown above, `s1` and `s2` are pointing to the same data. This is a problem: when `s2` and `s1` go out of scope, they will both try to free the same memory. This is known as a _double free error_ and is one of the memory safety bugs programmers encounter. Freeing memory twice can lead to memory corruption, which can potentially lead to security vulnerabilities.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+To ensure memory saftey, there is one more thing Rust does. Instead of trying to copy the allocated memory, Rust moved the data from `s1` to `s2` and invalidated the `s1` variable. If you try doing something like this: 
+```
+let s1 = String::from("hello");
+let s2 = s1;
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+println!("{}, world!", s1);
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+You will get an error because the `s1` reference to the `String` data was invalidated: 
+```
+error[E0382]: use of moved value: `s1`
+ --> src/main.rs:5:28
+  |
+3 |     let s2 = s1;
+  |         -- value moved here
+4 |
+5 |     println!("{}, world!", s1);
+  |                            ^^ value used here after move
+  |
+  = note: move occurs because `s1` has type `std::string::String`, which does
+  not implement the `Copy` trait
+```
 
-### Jekyll Themes
+As mentioned before, the `s1` data was moved to `s2`. Visually, it looks like this: 
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/JackieW001/SegFault/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+![useful image](https://jackiew001.github.io/SegFault/assets/move3.png)
 
-### Support or Contact
+It is similar to a shallow copy, where we are copying the pointer, length, and capacity without copying the data.
+This solves our problem! With only `s2` valid, when it goes out of scope, it alone will free the memory, and we’re done.
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+The semantics for passing a value to a function are similar to assigning a value to a variable. Passing a variable to a function will move or copy, just like assignment. Here's an example of variables going into and out of scope:
+```
+fn main() {
+    let s = String::from("hello");  // s comes into scope.
 
+    takes_ownership(s);             // s's value moves into the function...
+                                    // ... and so is no longer valid here.
 
+    let x = 5;                      // x comes into scope.
+
+    makes_copy(x);                  // x would move into the function,
+                                    // but i32 is Copy, so it’s okay to still
+                                    // use x afterward.
+
+} // Here, x goes out of scope, then s. But since s's value was moved, nothing
+  // special happens.
+
+fn takes_ownership(some_string: String) { // some_string comes into scope.
+    println!("{}", some_string);
+} // Here, some_string goes out of scope and `drop` is called. The backing
+  // memory is freed.
+
+fn makes_copy(some_integer: i32) { // some_integer comes into scope.
+    println!("{}", some_integer);
+} // Here, some_integer goes out of scope. Nothing special happens.
+```
+
+Returning values can also transfer ownership. Here's an example:
+```
+fn main() {
+    let s1 = gives_ownership();         // gives_ownership moves its return
+                                        // value into s1.
+
+    let s2 = String::from("hello");     // s2 comes into scope.
+
+    let s3 = takes_and_gives_back(s2);  // s2 is moved into
+                                        // takes_and_gives_back, which also
+                                        // moves its return value into s3.
+} // Here, s3 goes out of scope and is dropped. s2 goes out of scope but was
+  // moved, so nothing happens. s1 goes out of scope and is dropped.
+
+fn gives_ownership() -> String {             // gives_ownership will move its
+                                             // return value into the function
+                                             // that calls it.
+
+    let some_string = String::from("hello"); // some_string comes into scope.
+
+    some_string                              // some_string is returned and
+                                             // moves out to the calling
+                                             // function.
+}
+
+// takes_and_gives_back will take a String and return one.
+fn takes_and_gives_back(a_string: String) -> String { // a_string comes into
+                                                      // scope.
+
+    a_string  // a_string is returned and moves out to the calling function.
+}
+```
+
+The ownership of a variable follows the same pattern every time: assigning a value to another variable moves it. When a variable that includes data goes out of scope, the value will be cleaned up unless the data has been moved to be owned by another variable.
+
+Taking ownership and then returning ownership with every function is a bit tedious. What if we want to let a function use a value but not take ownership? It’s quite annoying that anything we pass in also needs to be passed back if we want to use it again, in addition to any data resulting from the body of the function that we might want to return as well. This is where borrowing comes in.
+
+## Borrowing
+Let's say we want to create a function that returns the length of a `String`. We would do something like this:
+```
+fn main() {
+    let s1 = String::from("hello");
+
+    let len = calculate_length(&s1);
+
+    println!("The length of '{}' is {}.", s1, len);
+}
+
+fn calculate_length(s: &String) -> usize {
+    s.len()
+}
+```
+
+Note that hat we pass `&s1` into calculate_length, and in its definition, we take `&String` rather than String. The ampersands `&` delinate _references_, and they allow you to refer to some value without taking ownership of it. Visually, references look like this:
+
+![useful image](https://jackiew001.github.io/SegFault/assets/ref1.png)
+
+Let's take a closer look at the function call:
+```
+let s1 = String::from("hello");
+
+let len = calculate_length(&s1);
+```
+
+The `&s1` syntax lets us create a reference that refers to the value of `s1` but does not own it. Because it does not own it, the value it points to will not be dropped when the reference goes out of scope.
+
+Likewise, the signature of the function uses `&` to indicate that the type of the parameter `s` is a reference.
+```
+fn calculate_length(s: &String) -> usize { // s is a reference to a String
+    s.len()
+} // Here, s goes out of scope. But because it does not have ownership of what
+  // it refers to, nothing happens.
+```
+
+The scope in which the variable s is valid is the same as any function parameter’s scope, but we don’t drop what the reference points to when it goes out of scope because we don’t have ownership. Functions that have references as parameters instead of the actual values mean we won’t need to return the values in order to give back ownership, since we never had ownership. 
+
+We call having references as function parameters _borrowing_.
+
+What if we want to modify something we are borrowing? As in real life, borrowing something doesn't mean you own it, and therefore can't change or mutate it.
+
+If we try something like this:
+```
+fn main() {
+    let s = String::from("hello");
+
+    change(&s);
+}
+
+fn change(some_string: &String) {
+    some_string.push_str(", world");
+}
+```
+This error will occur:
+```
+error[E0596]: cannot borrow immutable borrowed content `*some_string` as mutable
+ --> error.rs:8:5
+  |
+7 | fn change(some_string: &String) {
+  |                        ------- use `&mut String` here to make mutable
+8 |     some_string.push_str(", world");
+  |     ^^^^^^^^^^^ cannot borrow as mutable
+```
+We aren't allowed to modify something we have a reference to.
+
+### Mutable References
+With a small tweak, we can fix this:
+```
+fn main() {
+    let mut s = String::from("hello");
+
+    change(&mut s);
+}
+
+fn change(some_string: &mut String) {
+    some_string.push_str(", world");
+}
+```
+Note that instead of having just `&s`, it is now `&mut s`. In the function, `&String` is now `&mut String`. This tells Rust that we are making a mutable reference. 
+
+But mutable references have one big restriction: you can only have one mutable reference to a particular piece of data in a particular scope.
+Here's an example of having more than one mutable reference:
+```
+let mut s = String::from("hello");
+
+let r1 = &mut s;
+let r2 = &mut s;
+```
+This error will occur:
+```
+error[E0499]: cannot borrow `s` as mutable more than once at a time
+ --> borrow_twice.rs:5:19
+  |
+4 |     let r1 = &mut s;
+  |                   - first mutable borrow occurs here
+5 |     let r2 = &mut s;
+  |                   ^ second mutable borrow occurs here
+6 | }
+  | - first borrow ends here
+
+```
+
+This restriction allows for mutation but in a very controlled fashion. The benefit of having this restriction is that Rust can prevent data races at compile time.
+
+A _data race_ occurs when these three behaviors occur:
+1. Two or more pointers access the same data at the same time.
+2. At least one of the pointers is being used to write to the data.
+3. There’s no mechanism being used to synchronize access to the data.
+
+Data races cause undefined behavior and can be difficult to diagnose and fix when you’re trying to track them down at runtime; Rust prevents this problem from happening because it won’t even compile code with data races!
+
+As always, we can use curly brackets to create a new scope, allowing for multiple mutable references, just not simultaneous ones:
+```
+fn main() {
+let mut s = String::from("hello");
+
+{
+    let r1 = &mut s;
+
+} // r1 goes out of scope here, so we can make a new reference with no problems.
+
+let r2 = &mut s;
+}
+```
+### Rules of References
+TL;DR of references:
+1. At any given time, you can have _either_ but **not** both of:
+  - One mutable reference.
+  - Any number of immutable references.
+2. References must be vaild.
+
+# Resources
+[Rust Documentation](https://doc.rust-lang.org/book/second-edition/ch01-00-introduction.html)
