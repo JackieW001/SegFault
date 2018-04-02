@@ -76,7 +76,7 @@ We might assume that the way it works would be the same as the previous example:
 
 Let's look at what a `String` looks like "under the hood."
 
-![useful image]({{ site.url }}/assets/move1.png)
+![useful image](https://jackiew001.github.io/SegFault/assets/move1.png)
 
 The most important parts to take away from this is that
 1. The variable name is not directly connected to the `String` data, and
