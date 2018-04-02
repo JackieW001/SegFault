@@ -1,5 +1,7 @@
 # Intro to Rust
 
+## What is Rust?
+
 ## Ownership
 All programs have a way to manage the computer's memory. Some programs use a garbage collector that constantly searches for memory that is no longer being used to clear it. Other programs require the programmer to specifically free up and allocate memory. Rust does it differently. It uses a concept called ownership to manage memory.
 
@@ -316,6 +318,8 @@ TL;DR of references:
   - One mutable reference.
   - Any number of immutable references.
 2. References must be vaild.
+
+## The Future of Rust
 
 # Resources
 [Rust Documentation](https://doc.rust-lang.org/book/second-edition/ch01-00-introduction.html)
