@@ -1,6 +1,19 @@
 # Intro to Rust
 
 ## What is Rust?
+Rust is a systems level programming language that was sponsored by Mozilla Research. It was started in 2006 by Graydon Hoare and in 2016 and 2017, it won "most loved programming language” in the StackOverflow Developer Survey.
+
+## Syntax
+
+### Variable Binding
+
+### Mutability
+
+### Functions
+
+### Loops
+
+### Structs
 
 ## Ownership
 All programs have a way to manage the computer's memory. Some programs use a garbage collector that constantly searches for memory that is no longer being used to clear it. Other programs require the programmer to specifically free up and allocate memory. Rust does it differently. It uses a concept called ownership to manage memory.
