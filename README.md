@@ -25,6 +25,18 @@ You should see the same output as demonstrated above.
 
 Variables in Rust are staticly typed which means they are given a type when they are declared. 
 
+```
+fn main() {
+    println!("Hello, world!");
+    
+    let num = 10;
+    
+    let mut age: i32 = 40;
+}
+```
+
+In this example, when you declare num to be 10, Rust will guess the type of num, in this case integer. In addition, it will automatically assume your variable is immutable but more on that later. In this example, when you declare age, you set its type to be a 32 byte integer and you declare to be mutable. 
+
 ## Mutability
 
 Try running this code block:
@@ -69,6 +81,14 @@ fn plus_one(x: i32) -> i32 {
 One thing to note about functions in Rust is that instead of saying "return x+1;", you can simply make the last line of the function "x+1". However, when doing so, do not include the semicolon or else you will run into errors. Also, even though this is less typing, if you want, you can still use the keyword "return".
 
 ## Loops
+
+There are three main looping mechanisms in Rust: while, loop, and for.
+
+### While
+
+### Loop
+
+### For
 
 ## Structs
 
