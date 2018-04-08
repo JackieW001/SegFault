@@ -3,17 +3,58 @@
 ## What is Rust?
 Rust is a systems level programming language that was sponsored by Mozilla Research. It was started in 2006 by Graydon Hoare and in 2016 and 2017, it won "most loved programming language” in the StackOverflow Developer Survey.
 
-## Syntax
+## Syntax & Running Rust Files
 
-### Variable Binding
+Create a file named main.rs and input this into your file:
 
-### Mutability
+```
+fn main() {
+    println!("Hello, world!");
+}
+```
+Then in your terminal, run these commands:
 
-### Functions
+```
+$ rustc main.rs
+$ ./main
+Hello, world!
+```
+You should see the same output as demonstrated above.
 
-### Loops
+## Variable Binding
 
-### Structs
+Variables in Rust are staticly typed which means they are given a type when they are declared. 
+
+## Mutability
+
+Try running this code block:
+
+```
+fn main() {
+    let x = 5;
+    println!("The value of x is: {}", x);
+    x = 6;
+    println!("The value of x is: {}", x);
+}
+```
+
+If you run this, you should encounter an error. This is because in Rust, variables are automatically immutable. This means their value is unable to be changed. In order to fix this, you can add the word "mut" when you declare x.
+
+
+```
+fn main() {
+    let mut x = 5;
+    println!("The value of x is: {}", x);
+    x = 6;
+    println!("The value of x is: {}", x);
+}
+```
+
+## Functions
+
+## Loops
+
+## Structs
 
 ## Ownership
 All programs have a way to manage the computer's memory. Some programs use a garbage collector that constantly searches for memory that is no longer being used to clear it. Other programs require the programmer to specifically free up and allocate memory. Rust does it differently. It uses a concept called ownership to manage memory.
