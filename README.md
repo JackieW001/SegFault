@@ -52,6 +52,22 @@ fn main() {
 
 ## Functions
 
+In Rust, function parameters are declared to be a certain type. In the below example, in the function "plus_one" the parameter x has a type of a 32 byte integer. In addition, in Rust functions, "->" is placed after the parameters to show what the return type is. In the below example, the function "plus_one" has a return type of a 32 byte integer. 
+
+```
+fn main() {
+    let x = plus_one(5);
+
+    println!("The value of x is: {}", x);
+}
+
+fn plus_one(x: i32) -> i32 {
+    x + 1
+}
+```
+
+One thing to note about functions in Rust is that instead of saying "return x+1;", you can simply make the last line of the function "x+1". However, when doing so, do not include the semicolon or else you will run into errors. Also, even though this is less typing, if you want, you can still use the keyword "return".
+
 ## Loops
 
 ## Structs
