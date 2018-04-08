@@ -50,7 +50,7 @@ fn main() {
 }
 ```
 
-If you run this, you should encounter an error. This is because in Rust, variables are automatically immutable. This means their value is unable to be changed. In order to fix this, you can add the word "mut" when you declare x.
+If you run this, you should encounter an error. This is because in Rust, variables are automatically immutable. This means their value is unable to be changed. In order to fix this, you can add the word `mut` when you declare x.
 
 
 ```
@@ -64,7 +64,7 @@ fn main() {
 
 ## Functions
 
-In Rust, function parameters are declared to be a certain type. In the below example, in the function "plus_one" the parameter x has a type of a 32 byte integer. In addition, in Rust functions, "->" is placed after the parameters to show what the return type is. In the below example, the function "plus_one" has a return type of a 32 byte integer. 
+In Rust, function parameters are declared to be a certain type. In the below example, in the function `plus_one` the parameter x has a type of a 32 byte integer. In addition, in Rust functions, `->` is placed after the parameters to show what the return type is. In the below example, the function `plus_one` has a return type of a 32 byte integer. 
 
 ```
 fn main() {
@@ -78,11 +78,11 @@ fn plus_one(x: i32) -> i32 {
 }
 ```
 
-One thing to note about functions in Rust is that instead of saying "return x+1;", you can simply make the last line of the function "x+1". However, when doing so, do not include the semicolon or else you will run into errors. Also, even though this is less typing, if you want, you can still use the keyword "return".
+One thing to note about functions in Rust is that instead of saying `return x+1;`, you can simply make the last line of the function `x+1`. However, when doing so, do not include the semicolon or else you will run into errors. Also, even though this is less typing, if you want, you can still use the keyword `return`.
 
 ## Loops
 
-There are three main looping mechanisms in Rust: while, loop, and for.
+There are three main looping mechanisms in Rust: `while`, `loop`, and `for`.
 
 ### Loop
 Looping with loop is pretty simple; it just goes forever.
@@ -120,7 +120,7 @@ while !done {
 }
 ```
 
-In this example, the loop will run until x is divisible by 5 which will cause the "!done" to evaluate to false which will break you out of your loop.
+In this example, the loop will run until x is divisible by 5 which will cause `!done` to evaluate to false which will break you out of your loop.
 
 ### For
 
@@ -140,9 +140,50 @@ for x in 0..10 {
 }
 ```
 
-In this example, your loop will run ten times. One to note is that when you use "0..10", the first value is inclusive while the second is exclusive. So in this example, it will print 0 to 9 instead of 0 to 10 or 1 to 10.
+In this example, your loop will run ten times. One to note is that when you use `0..10`, the first value is inclusive while the second is exclusive. So in this example, it will print 0 to 9 instead of 0 to 10 or 1 to 10.
 
 ## Structs
+
+To define a struct, we use the keyword `struct` and then name the struct. We can give the struct names and types of the data included which we call `fields`.
+
+```
+struct User {
+    username: String,
+    email: String,
+    sign_in_count: u64,
+    active: bool,
+}
+```
+
+After defining a struct, we can create an instance of it as follows:
+
+```
+let user1 = User {
+    email: String::from("someone@example.com"),
+    username: String::from("someusername123"),
+    active: true,
+    sign_in_count: 1,
+};
+```
+
+After creating an instance, we can access the information stored using dot notation. For example, in order to get user1's email, you would:
+
+```
+    user1.email;
+```
+
+In addition if your struct is mutable, you can change the value of the fields. For example, you could change their email.
+
+```
+let mut user1 = User {
+    email: String::from("someone@example.com"),
+    username: String::from("someusername123"),
+    active: true,
+    sign_in_count: 1,
+};
+
+user1.email = String::from("anotheremail@example.com");
+```
 
 ## Ownership
 All programs have a way to manage the computer's memory. Some programs use a garbage collector that constantly searches for memory that is no longer being used to clear it. Other programs require the programmer to specifically free up and allocate memory. Rust does it differently. It uses a concept called ownership to manage memory.
