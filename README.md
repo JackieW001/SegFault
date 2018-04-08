@@ -84,11 +84,63 @@ One thing to note about functions in Rust is that instead of saying "return x+1;
 
 There are three main looping mechanisms in Rust: while, loop, and for.
 
+### Loop
+Looping with loop is pretty simple; it just goes forever.
+
+```
+loop {
+    println!("Loop forever!");
+}
+```
+
+This is equivalent to:
+
+```
+while true {
+    println!("Loop forever!");
+}
+```
+
 ### While
 
-### Loop
+While loops will go until a certain condition is no longer true. You should use while loops when you aren't sure how many times you should loop.
+
+```
+let mut x = 5; // mut x: i32
+let mut done = false; // mut done: bool
+
+while !done {
+    x += x - 3;
+
+    println!("{}", x);
+
+    if x % 5 == 0 {
+        done = true;
+    }
+}
+```
+
+In this example, the loop will run until x is divisible by 5 which will cause the "!done" to evaluate to false which will break you out of your loop.
 
 ### For
+
+For loops in Rust are formatted as follows:
+
+```
+for var in expression {
+    code
+}
+```
+
+One example of this formatting is:
+
+```
+for x in 0..10 {
+    println!("{}", x); // x: i32
+}
+```
+
+In this example, your loop will run ten times. One to note is that when you use "0..10", the first value is inclusive while the second is exclusive. So in this example, it will print 0 to 9 instead of 0 to 10 or 1 to 10.
 
 ## Structs
 
