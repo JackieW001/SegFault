@@ -523,9 +523,21 @@ Since Rust is highly C-compatible and has no Runtime or Garbage Collector, it wo
 
 Developers are using Rust to create a wide range of new software applications, such as game engines, operating systems, file systems, browser components and simulation engines for virtual reality.
 
+#### Browser Engine
+
+Rust is also used in developing modern web browsers with higher performance and better code safety. 
+
 One good example of it would be Servo: 
  - Servo is a modern, high-performance browser layout engine designed for both application and embedded use. It features innovations like a parallel layout algorithm and its own CSS3 and HTML5 parser implemented in Rust. Most importantly, through parallelism and code safety, it is able to achieve greater security and performance versus contemporary browsers. 
  
+ #### Data Science and Machine Intelligence
+ 
+Right now, the most popular languages for Data Science are Python, Java, R, and C++. However, while prototypes are mostly written in dynamically typed languages like Python and R, once an algorithm reaches production level quality, it is often rewritten in faster languages such as C++ for scalability. And as mentioned above, it is very likely that Rust is going to be some healthy competition for C++ in the near future. 
+
+Leaf, for example, a machine learning library written in Rust, is already nothing short of impressive.
+ - Leaf is a open Machine Learning Framework for hackers to build classical, deep or hybrid machine learning applications. It brings modularity, performance and portability to deep learning, and is already one of the fastest Machine Intelligence Frameworks available.
+ - Leaf is also part of the Autumn Machine Intelligence Platform (also called Autumn AI), which is working on making AI algorithms 100 times more computational efficient.
+ - Leaf aims to become the core of constructing high-performance machine intelligence applications. Its design makes it easy to publish independent modules to make e.g. deep reinforcement learning, visualization and monitoring, network distribution, automated preprocessing or scaleable production deployment easily accessible for everyone.
 
 # Resources
 [Rust Documentation](https://doc.rust-lang.org/book/second-edition/ch01-00-introduction.html)
