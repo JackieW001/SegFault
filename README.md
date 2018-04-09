@@ -546,4 +546,5 @@ Games are another area where Rust might shine. It's financially attractive for G
 
 # Resources
 [Rust Documentation](https://doc.rust-lang.org/book/second-edition/ch01-00-introduction.html)
+
 [Matthias Endler's Blog](https://matthias-endler.de)
