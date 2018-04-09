@@ -504,5 +504,28 @@ TL;DR of references:
 
 ## The Future of Rust
 
+### Competing with C and C++
+1. Speed 
+  - Rust is nearly as fast as C (since it doesn't utilize garbage collector)
+2. Better Security
+  - Rust’s ownership system prevents many of the common errors related to resource management, which often lead to security risks or total crashes in programs written in C or C++.
+3. Familiarity
+  - While the syntax may be different, basic constructs like ```struct``` and ```if-else``` have very similar principles and even the object model with structs may resemble object-oriented programming in C, if only on the surface.
+3. Has other benefits such as: 
+  - resource-safety 
+  - nicer concurrency story
+  
+### Integrating with other languages
+
+Since Rust is highly C-compatible and has no Runtime or Garbage Collector, it works very well with other languages. A typical pattern is to optimize the core part of an application in Rust that has high safety and performance requirements, while leaving the rest untouched. This symbiosis is very efficient and is expected to become stronger in the long run. 
+
+### Rust’s Wide Application
+
+Developers are using Rust to create a wide range of new software applications, such as game engines, operating systems, file systems, browser components and simulation engines for virtual reality.
+
+One good example of it would be Servo: 
+ - Servo is a modern, high-performance browser layout engine designed for both application and embedded use. It features innovations like a parallel layout algorithm and its own CSS3 and HTML5 parser implemented in Rust. Most importantly, through parallelism and code safety, it is able to achieve greater security and performance versus contemporary browsers. 
+ 
+
 # Resources
 [Rust Documentation](https://doc.rust-lang.org/book/second-edition/ch01-00-introduction.html)
