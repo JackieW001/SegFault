@@ -513,7 +513,7 @@ TL;DR of references:
   - Rust’s ownership system prevents many of the common errors related to resource management, which often lead to security risks or total crashes in programs written in C or C++.
 3. Familiarity
   - While the syntax may be different, basic constructs like ```struct``` and ```if-else``` have very similar principles and even the object model with structs may resemble object-oriented programming in C, if only on the surface.
-3. Has other benefits such as: 
+4. Has other benefits such as: 
   - resource-safety 
   - nicer concurrency story
   
