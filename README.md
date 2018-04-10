@@ -1,4 +1,5 @@
 # Intro to Rust
+Team SegFault
 Jackie Woo, XingTao Shi, Iris Tao
 Period 8
 
