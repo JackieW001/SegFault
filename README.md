@@ -2,6 +2,7 @@
 Team SegFault
 
 Jackie Woo, XingTao Shi, Iris Tao
+
 Period 8
 
 ## What is Rust?
