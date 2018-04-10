@@ -1,4 +1,6 @@
 # Intro to Rust
+Jackie Woo, XingTao Shi, Iris Tao
+Period 8
 
 ## What is Rust?
 Rust is a systems level programming language that was sponsored by Mozilla Research. It was started in 2006 by Graydon Hoare and in 2016 and 2017, it won "most loved programming language” in the StackOverflow Developer Survey.
@@ -548,3 +550,5 @@ Games are another area where Rust might shine. It's financially attractive for G
 [Rust Documentation](https://doc.rust-lang.org/book/second-edition/ch01-00-introduction.html)
 
 [Matthias Endler's Blog](https://matthias-endler.de)
+
+
